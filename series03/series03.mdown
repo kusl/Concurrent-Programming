@@ -92,10 +92,12 @@ It is quite obvious that we come to the same traces here. Either we do
 
 ## Exercise 3
 
-    TABLE = (pickup->putdown->TABLE).
+    TABLE = (pickup->trigger->putdown->TABLE).
     GUN = (trigger->bang->STOP|bang->STOP).
-    PLAYER = (pickup->trigger->putdown->PLAYER).
-    ||Roulette = ({m,c}::PLAYER || TABLE || GUN).
+
+    PLAYER = (pickup-> (bang -> STOP | trigger -> putdown -> PLAYER)).
+
+    ||Roulette = (michael:PLAYER || charlton:PLAYER || {michael,charlton}::TABLE || {michael,charlton}::GUN).
 
 
 
