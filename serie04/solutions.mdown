@@ -1,20 +1,47 @@
 # Ex 1
 ## Why are immutable classes inherently safe?
+Because at no point after construction is the invariant violated - except if it
+is violated all the time. This means that we can use such instances at any time
+without need for synchronization, because even if we were interrupted during a
+method call, the call would proceed as before, since the state can't have
+changed.
 
 ## What is “balking”?
+If the object is not in an "receiving state", it does not need to answer to
+requests (it might throw exceptions instead). The client can resume control
+instead of waiting for the service to become available again. He might decide to
+use another provider of the service instead or try again later.
 
 ## When is partial synchronization better than full synchronization?
+* If performance is an issue and some services can be safely fulfilled while
+  other methods run.
+  - If there is immutable state, we can safely provide service with that
+  - There are well extractable "critical sections", which handle mutable state.
+* If lifeness could be compromised otherwise.
 
 ## How does containment avoid the need for synchronization?
+There is always only at most one thread accessing the resource - the one that
+acquired it. As long as the thread keeps it, it can do to it, whatever it wants,
+because no other thread could access it anyway.
 
 ## What liveness problems can full synchronization introduce?
+There could be a deadlock, if both 1 and 2 need resources B and C to fulfill its
+service. All access is synchronized, so if 1 acquires B and 2 acquires C before
+1 can, then neither 1 nor 2 can proceed. It could be that 1 needed B only for
+some safe section, so it could have run in parallel to 2's use of B.
 
 ## When is it all right to declare only some methods as synchronized?
-
+* If some methods don't depend on mutable state.
+* If we are somehow ensured that only one thread can access the methods.
+* ???
 
 # Ex 2: What action trace violates the following safety property?
 
     property PS = (a -> (b -> PS|a -> PS)|b -> a -> PS).
+
+`b, b, ERROR`
+
+or any 3 consecutive `b`s
 
 # Ex 3: Write a safety property LIFTCAPACITY
 
@@ -24,6 +51,8 @@
                     ).
 
 Hint: the action trace should be: enter, enter, enter, enter, ERROR.
+
+*to be done*
 
 # Ex 4
 
@@ -37,3 +66,8 @@ behavior of the savages and the cook are described by:
     COOK = (fillpot -> COOK).
 
 Model the behavior of the pot as an FSP process.
+
+    FILLED[i:0..M] = (
+            when (i==0) fillpot -> FILLED[M]
+            |when (i>0)  getserving -> FILLED[i-1]
+            )
