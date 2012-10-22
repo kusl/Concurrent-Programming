@@ -1,4 +1,6 @@
 ltsatool/
+.idea/
+*.iml
 
 *.class
 

@@ -78,7 +78,16 @@ When running the safety check, the console provides the solution:
 
 ## Exercise 4
 
-???
+The followong FSP assumes, that after bang happens, the gun "falls" down (transition `putdown` still happens, although the player is dead).
+
+	TABLE = (pickup->putdown->TABLE).
+
+	GUN = GUN[1],
+	GUN[i:0..6] = (when (i>0) bang -> GUN[i-1] | trigger -> GUN[i]).
+	
+	PLAYER = (pickup-> (bang -> putdown -> STOP | trigger -> putdown -> PLAYER)).
+	
+	||Roulette = (michael:PLAYER || charlton:PLAYER || {michael,charlton}::TABLE || {michael,charlton}::GUN).
 
 ## Exercise 5
 
