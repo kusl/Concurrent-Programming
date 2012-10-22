@@ -42,8 +42,8 @@ detection techniques?**
 
 	`notify()` is only sufficient under the following conditions:
 
-	- It is not relevant which thread you wake up.
-	- You only need one thread to assure progress.
+- It is not relevant which thread you wake up.
+- You only need one thread to assure progress.
 
 	In practice these conditions are rarely met. If those conditions aren't met, it may lead to race conditions. At the same time, you gain only little by only waking up one thread. It might be considered if you have hundreds to thousends threads waiting for one resource, but then you probably also messed up your design anyway.
 
