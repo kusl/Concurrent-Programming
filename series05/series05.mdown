@@ -1,0 +1,89 @@
+Group 11  - Aaron Karper (08-915-894), Joel Krebs (09-112-996)
+
+# Serie 5 - Liveness and Guarded Methods
+
+## Exercise 1
+
+1.	**What is a guarded method and when should it be preferred over balking?**
+
+	A guarded method is a software design pattern, where a precondition (guard) must be satisified before the method can actually be executed. During this time the lock on the object is revoked, so that other objects might access it and change the state, so that the precondition eventually comes true.
+
+    The usage of a guarded method over balking should be prefered, if the suspension and wait period is expected to be finite and reasonable - otherwise the thread might wait for a unreasonable amount of time.
+
+	When the duration of call supspension is indefinite or tends to be longer, than balking should be considered.
+
+2.	**Why must you re-establish the class invariant before calling wait()?**
+
+	With calling `wait()` we revoke the lock on the object and therefore we open the object to other threads. These threads assume the invariant to hold - otherwise they shouldn't be allowed to access the object in the first place. Therefore before calling the method, the class invariant must hold.
+
+3.	**What is, in your opinion, the best strategy to deal with an InterruptedException? Justify your
+answer!**
+
+	That highly depends on the application context - as pointed out during the lecture. When interacting with a user, user intervention seems to be a smart choice. After all he possible called for the action, so he should be able to handle it. Otherwise exit the method and raising the exception to the caller seems to be another good choice when in doubt. The client should handle the exception then. The last choice could be a cleanup and then a restart, e.g. if the action was critical and expected to succeed.
+
+4.	**How can you detect deadlock? How can you avoid it?**
+
+	Deadlock detection can be achieved by repeteatly checking the state of the system (e.g. model checking). By constructing a finite state model we can find all possible terminal sets in the model. These sets are then our deadlocks. After that you still have to handle them in a way (e.g. process termintation or resource preemption).
+
+	Another approach is deadlock prevention and avoidance. The idea is, to design the system in a way, in which no deadlocks can occur, so that no waits-for cycles can arise.
+
+5.	**Why it is generally a good idea to avoid deadlocks from the beginning instead of relying on deadlock
+detection techniques?**
+
+	It might be quite time consuming, depending on the algorithm for both detection and the resolution of the deadlock.
+
+	???
+
+6.	**Why is progress a liveness rather than a safety issue?**
+
+	???
+
+7.	**Why should you usually prefer notifyAll() to notify()?**
+
+	`notify()` is only sufficient under the following conditions:
+
+	- It is not relevant which thread you wake up.
+	- You only need one thread to assure progress.
+
+	In practice these conditions are rarely met. If those conditions aren't met, it may lead to race conditions. At the same time, you gain only little by only waking up one thread. It might be considered if you have hundreds to thousends threads waiting for one resource, but then you probably also messed up your design anyway.
+
+## Exercise 2
+
+Example for square 7:
+
+	MAZE = SEVEN,
+	ZERO = (north -> STOP | east -> ONE),
+	ONE = (west -> ZERO | east -> TWO | south -> FOUR),
+	TWO = (west -> ONE | south -> FIVE),
+	THREE = (east -> FOUR | south -> SIX),
+	FOUR = (west -> THREE | north -> ONE),
+	FIVE = (north -> TWO | south -> EIGHT),
+	SIX = (north -> THREE),
+	SEVEN = (east -> EIGHT),
+	EIGHT = (west -> SEVEN | north -> FIVE).¨
+
+When running the safety check, the console provides the solution:
+
+	Trace to DEADLOCK:
+	east
+	north
+	north
+	west
+	west
+	north
+
+## Exercise 3
+
+???
+
+## Exercise 4
+
+???
+
+## Exercise 5
+
+coming soon
+
+## Exercise 6
+
+???
