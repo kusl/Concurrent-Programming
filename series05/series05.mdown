@@ -91,7 +91,7 @@ The followong FSP assumes, that after bang happens, the gun "falls" down (transi
 
 ## Exercise 5
 
-coming soon
+Please see attached sources.
 
 ## Exercise 6
 
