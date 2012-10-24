@@ -32,11 +32,15 @@ detection techniques?**
 
 	It might be quite time consuming, depending on the algorithm for both detection and the resolution of the deadlock.
 
-	???
+Also to solve a deadlock, a thread needs to be killed or the resource forcably taken
+from them, both of which might lead to inconsistencies and code that takes this
+into account.
 
 6.	**Why is progress a liveness rather than a safety issue?**
 
-	???
+As long as no thread does anything, nothing can go wrong, no invariants get
+broken, .... Making progress is desirable however, so we don't get any benefits
+from the stalling threads either, thus making it a liveness issue.
 
 7.	**Why should you usually prefer notifyAll() to notify()?**
 
@@ -74,7 +78,14 @@ When running the safety check, the console provides the solution:
 
 ## Exercise 3
 
-???
+    PHIL = ( sitdown
+    -> right.get -> left.get -> eat
+    -> left.put -> right.put -> arise -> PHIL ).
+    FORK = ( get -> put -> FORK).
+    ||DINERS(N=5) =
+    forall [i:0..N-1]( phil[i]:PHIL
+    || {phil[min(i, ((i-1)+N)%N)].left,phil[max(i, ((i-1)+N)%N)].right}::FORK ).
+             ~~~~~~~~~~~~~~~~~~~            ~~~~~~~~~~~~~~~~~~~
 
 ## Exercise 4
 
