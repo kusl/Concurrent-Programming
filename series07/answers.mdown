@@ -1,0 +1,30 @@
+# Exercise 1
+## When should you consider using asynchronous invocations?
+
+* If I can do work, while waiting for the answer.
+* If I don't even need an answer.
+* Or if I can be in a safe state for answering request, while I wait.
+
+## In what sense can a direct invocation be asynchronous?
+If I can invoke the method without synchronization: The invoked object is always
+in a safe state.
+
+## What is “early reply”?
+I give back the result of the computation and then do some cleanup task, that
+does not influence the result in my thread. One could imagine this happening in
+a C++ like language, in which the destructor calls on leaving scope would be in
+a separate thread from the control flow that returned the value already.
+
+## What are “futures”?
+Slots for results of invocations, that can be accessed and block, if the value
+is not available and return the value if it is. This access is functional:
+The value, once set, is immutable. It is also explicit: One can't mistake a
+Future for a reference (wouldn't work in Java, but transparent conversion would
+be possible in other languages, like C++ or Haskell (a thunk is basically a
+future if the compiler decided to run in a separate thread)).
+
+## When are futures better than early replies?
+If the host thread can do some work between the call and the return - in the
+case of early return, we only get back control once the call returns, but in the
+case of futures, the host keeps control until they explicitly give it up by
+`get()`ing the result.
