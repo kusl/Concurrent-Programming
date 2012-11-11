@@ -57,3 +57,7 @@ for.
 * **Latches**, once open, stay open. They basically only need to ensure that a
   condition holds, and then it must be ensured that that condition will always
   hold thereafter.
+
+# Exercise 4
+
+*Write an LTS model for the modified program from Exercise 3. Make sure that no deadlock occurs; check your model using the LTSA tool. Hint: You should model at least the following processes: `SEMAPHORE`, `THENEST`, `CHICKEN`, `FARMER`, and the composite process `FARM`.*
