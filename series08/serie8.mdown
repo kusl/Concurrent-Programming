@@ -58,6 +58,19 @@ for.
   condition holds, and then it must be ensured that that condition will always
   hold thereafter.
 
+# Exercise 2
+## Which implementation would you prefer for this kind of problem? Is there any considerable difference at all? Justify your answer!
+Since there is no cleanup necessary, an early reply does not make any sense.
+Furthermore, a client for a future can keep control as long as the result is
+not needed, which they will appreciate. 
+
+## Write a new class FutureTaskExecDemo.java that uses an executor service to compute the future task and to execute the clients, instead of creating explicit new threads. What is the benefit of using executors?
+We can apply different strategies, for example a different size of the thread
+pool or even sequential execution, ... without changing the interface.
+
+## In addition, add a time constraint such that the client thread waits for at most a given amount of time for the result.
+Done!
+
 # Exercise 4
 
 *Write an LTS model for the modified program from Exercise 3. Make sure that no deadlock occurs; check your model using the LTSA tool. Hint: You should model at least the following processes: `SEMAPHORE`, `THENEST`, `CHICKEN`, `FARMER`, and the composite process `FARM`.*
