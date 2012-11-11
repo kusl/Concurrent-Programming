@@ -23,20 +23,24 @@ public class TheNest implements Buffer {
 		this.empty = new Semaphore(size);
 	}
 
-	public synchronized void put(Object obj) {
+	public void put(Object obj) {
 		empty.down();
-		buf[in] = obj;
-		in = (in + 1) % size;
-		full.up();
+		synchronized (this) {
+			buf[in] = obj;
+			in = (in + 1) % size;
+			full.up();
+		}
 	}
 
-	public synchronized Object get() {
+	public Object get() {
 		full.down();
-		Object obj = buf[out];
-		buf[out] = null;
-		out = (out + 1) % size;
-		empty.up();
-		return (obj);
+		synchronized (this) {
+			Object obj = buf[out];
+			buf[out] = null;
+			out = (out + 1) % size;
+			empty.up();
+			return (obj);
+		}
 	}
 
 }
