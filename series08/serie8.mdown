@@ -31,10 +31,9 @@
 ## Point out the difference(s)
 ### between a simple condition object and a semaphore
 Conceptionally, a semaphore gives out permits to use the resource, whereas
-condition objects allow a thread to wait for a condition to be fulfilled. One
-can think of this as a condition starting at count=0 and a semaphore at
-count=1..n, thus the first thread coming to a condition waits, but the first
-thread coming to a semaphore is allowed.
+condition objects allow a thread to wait for a condition to be fulfilled. This
+allows that the await and the notify can by asynchronous (out of order). 
+
 ### between a simple condition object and a monitor.
 A monitor guards its resource and prohibits concurrent access, and as such can
 be seen as a special case for a condition like "unoccupied".
@@ -46,5 +45,15 @@ Because Java `Object` provides these.
 An object locks more than one lock, but when waiting does not release all of
 them. However the "inner" condition needs to be fulfilled by another thread, but
 other threads wont work, because the "outer" lock is still in place.
+
 ## What is the easiest way to avoid the nested monitor problem?
+Releasing all locks if you release one, e.g. when you wait - i.e. not waiting in
+a `synchronized` block, that is not synchronized on the object we're waiting
+for.
+
 ## What are “permits” and “latches”? When it is natural to use them?
+* **permits** are condition semaphores, that ensure, that signals are not missed
+  by having a number of allowed threads to use the condition.
+* **Latches**, once open, stay open. They basically only need to ensure that a
+  condition holds, and then it must be ensured that that condition will always
+  hold thereafter.
