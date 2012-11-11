@@ -1,4 +1,5 @@
-# Why are servers usually structured as thread-per-message gateways?
+# Exercise 1
+## Why are servers usually structured as thread-per-message gateways?
 * It would be hard to match a new message to an existing conversation, requests
   might have been lost, .... If the conversation thread is still in the
   computation, when another request arrives, the dispatcher thread would have to
@@ -8,14 +9,14 @@
 * A worker pool for the requests would probably be ideal, because it simulates
   thread-per-message without spawning actual threads.
 
-# Can you think of other well-known programming concept(s) that is (are) similar to Futures? Outline differences (if any) and give some programming languages that support these features.
+## Can you think of other well-known programming concept(s) that is (are) similar to Futures? Outline differences (if any) and give some programming languages that support these features.
 * Thunks in lazy evaluation: The result of a computation is only produces, when
   it is needed. The difference to a future is that the future produces the
   result either way (even though not in the current thread). The evaluation can,
   but does not need to happen in a different thread. *Languages*: Haskell,
   clojure, ...
 * ?
-# What are condition objects? Name at least two advantages and disadvantages, respectively, of using condition objects.
+## What are condition objects? Name at least two advantages and disadvantages, respectively, of using condition objects.
 * Advantages:
   - Efficiency, because only threads need to be woken, that are actually
     interested in the notification, if there is more than one reason to wait.
@@ -26,20 +27,24 @@
 * Disadvantages:
   - Can actually be more complex, than shutting the object down completely.
   - Nested monitor problem could lead to a dead-lock.
-# Point out the difference(s)
-## between a simple condition object and a semaphore
+
+## Point out the difference(s)
+### between a simple condition object and a semaphore
 Conceptionally, a semaphore gives out permits to use the resource, whereas
 condition objects allow a thread to wait for a condition to be fulfilled. One
 can think of this as a condition starting at count=0 and a semaphore at
 count=1..n, thus the first thread coming to a condition waits, but the first
 thread coming to a semaphore is allowed.
-## between a simple condition object and a monitor.
+### between a simple condition object and a monitor.
 A monitor guards its resource and prohibits concurrent access, and as such can
 be seen as a special case for a condition like "unoccupied".
 
-# Why does the SimpleConditionObject from the lecture not need any instance variables
+## Why does the SimpleConditionObject from the lecture not need any instance variables
 Because Java `Object` provides these.
 
-# What is the “nested monitor problem”? Give an answer that is as precise and short as possible (in your own words). Also describe briefly a concrete example where a nested monitor occurs.
-# What is the easiest way to avoid the nested monitor problem?
-# What are “permits” and “latches”? When it is natural to use them?
+## What is the “nested monitor problem”? Give an answer that is as precise and short as possible (in your own words). Also describe briefly a concrete example where a nested monitor occurs.
+An object locks more than one lock, but when waiting does not release all of
+them. However the "inner" condition needs to be fulfilled by another thread, but
+other threads wont work, because the "outer" lock is still in place.
+## What is the easiest way to avoid the nested monitor problem?
+## What are “permits” and “latches”? When it is natural to use them?
