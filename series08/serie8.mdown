@@ -4,27 +4,23 @@ Group 11  - Aaron Karper (08-915-894), Joel Krebs (09-112-996)
 
 ## Exercise 1
 
-1.	**Why are servers usually structured as thread-per-message gateways?**
-
+1.	**Why are servers usually structured as thread-per-message gateways?**  
 	* It would be hard to match a new message to an existing conversation, requests
-	  might have been lost, .... If the conversation thread is still in the
-	  computation, when another request arrives, the dispatcher thread would have to
-	  wait or queueing the request (thus increasing complexity of the application).
+might have been lost, .... If the conversation thread is still in the
+computation, when another request arrives, the dispatcher thread would have to
+wait or queueing the request (thus increasing complexity of the application).
 	* If there was just the dispatcher thread, the server's performance would be
-	  abysmal.
+abysmal.
 	* A worker pool for the requests would probably be ideal, because it simulates
-	  thread-per-message without spawning actual threads.
+thread-per-message without spawning actual threads.
 
-2. **Can you think of other well-known programming concept(s) that is (are) similar to Futures? Outline differences 	(if any) and give some programming languages that support these features.**
-
+2. **Can you think of other well-known programming concept(s) that is (are) similar to Futures? Outline differences 	(if any) and give some programming languages that support these features.**  
 	* Thunks in lazy evaluation: The result of a computation is only produces, when it is needed. The difference to a future is that the future produces the   result either way (even though not in the current thread). The evaluation can, but does not need to happen in a different thread.  
 	*Languages*: Haskell, clojure, ...
-	
 	* Promises: They are very similar to futures. When a client requests something from the server, it gets an immediate    response of the same type (e.g. an object, an array) which does not yet contain any data. When the deffered task on the server side is finish, it gets delivered to the promise. But the client did not have to wait for that. It could continue any tasks with the promise.  
 	*Languages*: A nice implementation in JavaScript is kirskowal's q (https://github.com/kriskowal/q). It has been used in Angular JS (http://angularjs.org/).
 
-3. **What are condition objects? Name at least two advantages and disadvantages, respectively, of using condition 	objects.**
-
+3. **What are condition objects? Name at least two advantages and disadvantages, respectively, of using condition 	objects.**  
 	* Advantages:
 		- Efficiency, because only threads need to be woken, that are actually
     	interested in the notification, if there is more than one reason to wait.
@@ -32,7 +28,6 @@ Group 11  - Aaron Karper (08-915-894), Joel Krebs (09-112-996)
     	each other.
   		- Can simplify waiting, by extracting the cause for the delay. This could even
     	simplify ensuring liveness.
-
 	* Disadvantages:
 		- Can actually be more complex, than shutting the object down completely.
 		- Nested monitor problem could lead to a dead-lock.
@@ -63,11 +58,9 @@ Group 11  - Aaron Karper (08-915-894), Joel Krebs (09-112-996)
 	a `synchronized` block, that is not synchronized on the object we're waiting
 	for.
 
-8. **What are “permits” and “latches”? When it is natural to use them?**
-
+8. **What are “permits” and “latches”? When it is natural to use them?**  
 	* **permits** are condition semaphores, that ensure, that signals are not missed
   	by having a number of allowed threads to use the condition.
-
 	* **Latches**, once open, stay open. They basically only need to ensure that a
   	condition holds, and then it must be ensured that that condition will always
   	hold thereafter.
