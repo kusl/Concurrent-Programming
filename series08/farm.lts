@@ -1,0 +1,9 @@
+FARMER = (full.dec -> nest.acquire -> getEgg -> empty. -> nest.release -> FARMER).
+CHICKEN = (empty.dec -> nest.acquire -> putEgg -> full.inc -> nest.release -> CHICKEN).
+SEMAPHORE(N) = SEMAPHORE[N].
+SEMAPHORE[i:0..5] = 
+	(when(i<5) inc -> SEMAPHORE[i+1]
+	|when(i>0) dec -> SEMAPHORE[i-1]).
+NEST = (acquire -> release -> NEST)
+
+||FARM = (FARMER || CHICKEN || full:SEMAPHORE(5) || empty:SEMAPHORE(0) || nest:NEST).
