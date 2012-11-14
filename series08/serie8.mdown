@@ -84,4 +84,15 @@ Done!
 
 # Exercise 4
 
-follows asap
+	NEST = NEST[0],
+	NEST[i:0..5] = (take -> NEST[i-1] | put -> NEST[i+1]).
+	
+	CHICKEN = (empty.dec -> put -> full.inc -> CHICKEN).
+	
+	FARMER = (full.inc -> take -> empty.inc -> FARMER).
+	
+	SEMAPHORE(N=5) = SEMAPHORE[N],
+	SEMAPHORE[i:0..5] = (when(i>0) inc -> SEMAPHORE[i-1] 
+						|when(i<5) dec -> SEMAPHORE[i+1]).
+	
+	||FARM = (FARMER || NEST || CHICKEN || full:SEMAPHORE(5) || empty:SEMAPHORE(0)).
