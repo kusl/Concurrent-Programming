@@ -1,0 +1,32 @@
+# Series 9
+## Exercise 1
+### 1: What criteria might you use to prioritize threads?
+* Expected time to finish
+* Type of thread (reader vs writer)
+* Profit from running
+* Urgency
+* Required access to resources
+* ...
+
+### 2: What are different possible denitions of fairness?
+* weak: If I keep asking constantly, I will be granted access eventually
+* strong: If I ask from time to time, I will be granted access eventually
+
+### 3: What are 
+#### Pass-Throughs 
+Methods, that do not require synchronization and thus can be executed in
+parallel. Reading is often pass-thoughable.
+#### Lock-Splitting
+Sets of methods, so that each set can run independently, but the methods of a
+set exclude each other. Getter and setter of different parts of an object might
+exclude each other, but different getters and setters can well run in parallel.
+
+### 4: When should you provide a policy for upgrading readers to writers?
+If there is a chance that a transaction does not necessarily need to write, but
+might need to, if the reads give a certain result. If an upgrade option is not
+available, the transaction would need to be registered as a writer from the
+start.
+
+### 5: When should you consider using optimistic methods?
+If the chance of collision is small, but not zero. If it is big, use pessimistic
+locking, if it is zero, no collision detection is necessary.
