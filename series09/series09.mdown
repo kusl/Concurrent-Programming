@@ -14,8 +14,8 @@
 
 ### 3: What are 
 #### Pass-Throughs 
-Methods, that do not require synchronization and thus can be executed in
-parallel. Reading is often pass-thoughable.
+Messages can be passed through to helper objects, that themselves are
+synchronized.
 #### Lock-Splitting
 Sets of methods, so that each set can run independently, but the methods of a
 set exclude each other. Getter and setter of different parts of an object might
