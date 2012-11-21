@@ -1,3 +1,5 @@
+Group 11  - Aaron Karper (08-915-894), Joel Krebs (09-112-996)
+
 # Series 9
 ## Exercise 1
 ### 1: What criteria might you use to prioritize threads?
